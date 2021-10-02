@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIsValidLogFileName_BadExtension_Returnfalse(t *testing.T) {
+func TestIsValidLogFileName_BadExtension_ReturnFalse(t *testing.T) {
 	analyzer := LogAnalyzer{}
 	result := analyzer.IsValidLogFileName("file.foo")
 	assert.Equal(t, false, result)
