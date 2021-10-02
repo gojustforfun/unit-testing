@@ -7,20 +7,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIsValidLogFileName_BadExtension_ReturnFalse(t *testing.T) {
-	analyzer := LogAnalyzer{}
-	result := analyzer.IsValidLogFileName("file.foo")
-	assert.Equal(t, false, result)
-}
-
-func TestIsValidLogFileName_GoodExtensionLowercase_ReturnTrue(t *testing.T) {
-	analyzer := LogAnalyzer{}
-	result := analyzer.IsValidLogFileName("file.slf")
-	assert.Equal(t, true, result)
-}
-
-func TestIsValidLogFileName_GoodExtensionUppercase_ReturnTrue(t *testing.T) {
-	analyzer := LogAnalyzer{}
-	result := analyzer.IsValidLogFileName("file.SLF")
-	assert.Equal(t, true, result)
+func TestIsValidLogFileName(t *testing.T) {
+	testcases := map[string]struct {
+		fileName string
+		expected bool
+	}{
+		"BadExtension_ShouldReturnFalse":          {fileName: "file.foo", expected: false},
+		"GoodExtensionLowercase_ShouldReturnTrue": {fileName: "file.slf", expected: true},
+		"GoodExtensionUppercase_ShouldReturnTrue": {fileName: "file.SLF", expected: true},
+	}
+	for name, tt := range testcases {
+		t.Run(name, func(t *testing.T) {
+			assert.Equal(t, tt.expected, (&LogAnalyzer{}).IsValidLogFileName(tt.fileName))
+		})
+	}
 }
