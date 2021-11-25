@@ -1,18 +1,12 @@
 package v0
 
-type Result struct {
-	Passed bool
-	Reason string
-}
+type Rule func(password string) error
 
-type Rule func(password string) Result
-
-var VerifyPassword = func(password string, rules []Rule) []string {
-	errs := []string{}
+var VerifyPassword = func(password string, rules []Rule) []error {
+	errs := []error{}
 	for _, rule := range rules {
-		result := rule(password)
-		if !result.Passed {
-			errs = append(errs, "error "+result.Reason)
+		if err := rule(password); err != nil {
+			errs = append(errs, err)
 		}
 	}
 	return errs
